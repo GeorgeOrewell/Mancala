@@ -5,6 +5,11 @@ import shutil
 import sys
 from datetime import timedelta
 import yt_dlp
+# Auswählen eines Verzeichnisses durch Nutzer
+browseDirectoryToMoveFiles = "0"
+# Standart Verzeichnis für Download
+defaultDirectory = "~/storage/downloads/"
+
 
 # Logging einrichten
 logging.basicConfig(filename="download_log.txt", level=logging.INFO,
@@ -63,6 +68,8 @@ def input_urls():
     print("Gib die URLs zum Download ein. Bestätige jede URL mit Enter. Gib 'f' ein, um die Eingabe zu beenden.")
     while True:
         url = input("URL: ").strip()
+        if url.lower() == "":
+            break
         if url.lower() == 'f':
             break
         elif url:
@@ -128,13 +135,13 @@ def move_downloaded_videos(target_directory, downloaded_files):
 
     log_message("Alle Dateien wurden verschoben.")
 
-def browse_directories(starting_directory='./storage/downloads/'):
+def browse_directories(starting_directory=defaultDirectory):
     """Ermöglicht das Navigieren durch Verzeichnisse und wählt das Zielverzeichnis aus."""
     current_directory = os.path.abspath(starting_directory)
 
     while True:
-        return current_directory
-
+        if browseDirectoryToMoveFiles.strip() == "0":
+            return current_directory
         print(f"\nAktuelles Verzeichnis: {current_directory}")
         directories = [d for d in os.listdir(current_directory) if os.path.isdir(os.path.join(current_directory, d))]
         directories.insert(0, '..')  # Option zum Zurücknavigieren
@@ -153,6 +160,7 @@ def browse_directories(starting_directory='./storage/downloads/'):
             print("Ungültige Eingabe, bitte versuche es erneut.")
 
 def main():
+    os.system('clear')
     """Hauptfunktion des Skripts."""
     log_message("Skript gestartet...")
 
