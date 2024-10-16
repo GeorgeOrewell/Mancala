@@ -8,7 +8,7 @@ import yt_dlp
 # Auswählen eines Verzeichnisses durch Nutzer
 browseDirectoryToMoveFiles = "0"
 # Standart Verzeichnis für Download
-defaultDirectory = "~/storage/downloads/"
+defaultDirectory = "/storage/downloads/"
 
 
 # Logging einrichten
@@ -161,6 +161,7 @@ def browse_directories(starting_directory=defaultDirectory):
 
 def main():
     os.system('clear')
+    os.system('cd')
     """Hauptfunktion des Skripts."""
     log_message("Skript gestartet...")
 
