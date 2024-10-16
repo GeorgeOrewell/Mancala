@@ -13,8 +13,7 @@ defaultDirectory = "./storage/downloads/"
 
 
 # Logging einrichten
-logging.basicConfig(filename="download_log.txt", level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename="download_log.txt", level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def log_message(message):
     """Gibt eine Nachricht aus und speichert sie im Log."""
