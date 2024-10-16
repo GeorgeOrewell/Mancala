@@ -1,7 +1,5 @@
-import os
-import time
-import logging
-import shutil
+import os                                                                      import time
+import logging                                                                 import shutil
 import sys
 from datetime import timedelta
 import yt_dlp
@@ -21,8 +19,7 @@ def log_message(message):
     logging.info(message)
 
 def load_downloaded_urls():
-    """Lädt bereits heruntergeladene URLs aus der Logdatei."""
-    downloaded_urls = set()
+    """Lädt bereits heruntergeladene URLs aus der Logdatei."""                     downloaded_urls = set()
     if os.path.exists("download_log.txt"):
         with open("download_log.txt", 'r') as log_file:
             for line in log_file:
@@ -121,6 +118,18 @@ def download_videos_from_input(urls, downloaded_urls):
 
     return downloaded_files
 
+def header():
+    ascii_art="""
+ _____                   _                _
+|  ___| () ()  _ __     / \    _ __    __| | _ __   ___
+| |_   | | | || '__|   / _ \  | '_ \  / _` || '__| / _ \\
+|  _|  | |_| || |     / ___ \ | | | || (_| || |   |  __/
+|_|     \__,_||_|    /_/   \_\|_| |_| \__,_||_|    \___|
+
+    """
+    os.system('clear')
+    print(ascii_art)
+
 def move_downloaded_videos(target_directory, downloaded_files):
     """Bewegt alle heruntergeladenen Videos in das angegebene Verzeichnis."""
     log_message(f"Verschiebe heruntergeladene Dateien in das Verzeichnis: {target_directory}")
@@ -162,6 +171,7 @@ def browse_directories(starting_directory=defaultDirectory):
 def main():
     os.system('clear')
     os.system('cd')
+    header()
     """Hauptfunktion des Skripts."""
     log_message("Skript gestartet...")
 
