@@ -8,7 +8,7 @@ import yt_dlp
 # Auswählen eines Verzeichnisses durch Nutzer
 browseDirectoryToMoveFiles = "0"
 # Standart Verzeichnis für Download
-defaultDirectory = "/storage/downloads/"
+defaultDirectory = "./storage/downloads/"
 
 
 # Logging einrichten
