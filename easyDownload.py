@@ -57,7 +57,7 @@ def progress_hook(d):
             eta = "Unbekannt"
 
         clear_line()
-        print(f"Fortschritt: {percent} | {speed} | Restzeit: {eta}", end='')
+        print(f"Fortschritt: {percent} | {speed} | Restzeit: {eta}         ", end='')
     elif d['status'] == 'finished':
         clear_line()
         log_message("Download abgeschlossen, Verarbeitung...")
