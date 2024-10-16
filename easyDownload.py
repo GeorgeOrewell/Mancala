@@ -1,8 +1,11 @@
-import os                                                                      import time
-import logging                                                                 import shutil
+import os
+import time
+import logging
+import shutil
 import sys
 from datetime import timedelta
 import yt_dlp
+
 # Auswählen eines Verzeichnisses durch Nutzer
 browseDirectoryToMoveFiles = "0"
 # Standart Verzeichnis für Download
@@ -19,7 +22,8 @@ def log_message(message):
     logging.info(message)
 
 def load_downloaded_urls():
-    """Lädt bereits heruntergeladene URLs aus der Logdatei."""                     downloaded_urls = set()
+    """Lädt bereits heruntergeladene URLs aus der Logdatei."""
+    downloaded_urls = set()
     if os.path.exists("download_log.txt"):
         with open("download_log.txt", 'r') as log_file:
             for line in log_file:
