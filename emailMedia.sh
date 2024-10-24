@@ -16,6 +16,21 @@ RECIPIENT="joanne.o.lavender@gmail.com"
 # Betreff und Nachricht der E-Mail
 SUBJECT="Ergebnisse des Debug-Prozesses"
 BODY="Hier ist die Liste der Debugergebnisse."
+# Funktion für einen aufsteigenden G-Dur-Ton (G, H, D) ohne Textausgabe
+
+play_gdur_ascending() {
+    play -n synth 0.3 sine 392 >/dev/null 2>&1   # G4
+    play -n synth 0.3 sine 493.88 >/dev/null 2>&1 # H4
+    play -n synth 0.3 sine 587.33 >/dev/null 2>&1 # D5
+}
+
+# Funktion für einen absteigenden G-Dur-Ton (D, H, G) ohne Textausgabe
+play_gdur_descending() {
+    play -n synth 0.3 sine 587.33 >/dev/null 2>&1 # D5
+    play -n synth 0.3 sine 493.88 >/dev/null 2>&1 # H4
+    play -n synth 0.3 sine 392 >/dev/null 2>&1   # G4
+}
+play_gdur_ascending
 
 # Schritt 1: .muttrc Datei vom Repo herunterladen und ins Home-Verzeichnis speichern
 curl -s -o "$MUTTRC_PATH" "$MUTTRC_URL"
@@ -49,3 +64,5 @@ fi
 
 # Optional: Aufräumen - Die Liste der Mediendateien löschen
 rm "$MEDIA_FILE"
+
+play_gdur_descending
