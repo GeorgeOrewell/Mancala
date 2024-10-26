@@ -5,7 +5,9 @@ MUTTRC_URL="https://raw.githubusercontent.com/GeorgeOrewell/Mancala/main/.muttrc
 MUTTRC_PATH="$HOME/.muttrc"
 
 # Zielverzeichnis der SD-Karte
-SD_CARD_PATH="/storage/1692-9E0D/"
+#SD_CARD_PATH="/storage/1692-9E0D/"
+SD_CARD_PATH="/storage/73DA-D26F/"
+#SD_CARD_PATH="$HOME"
 
 # Datei, in der die gefundenen Mediendateien gespeichert werden
 MEDIA_FILE="$HOME/debug.dbg"
